@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" />
+  
+  <!--為了符合 device 真正寬度，必須設定 viewport 的 width 等於 device-widt, 使用者可否放大或縮小螢幕，以及是否可以縮放-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+
+  <!-- 隱藏底部 iPhone button bar，看起來更像 iPhone App-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <!--更改 status bar 樣式-->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <meta name="apple-mobile-web-app-title" content="WEB Approval Control">
+
+  <link rel="manifest" href="manifest.json">
+  <title>ERP WEB</title>
+
+
+  <script>
+    var now = new Date();
+    var minutes = now.getMinutes().toString().padStart(2, '0');
+    var l0m = minutes.substring(0, 1) + '0';
+    const value = 25
+    var ReF_Min = (minutes % value == 0 ? (minutes) : minutes - (minutes % value) )
+    var serno = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + '_' + now.getHours() + ':' + l0m;
+
+    var hostname = ['ph', 'bm', 'hw', 'phi', 'hq']
+    var Server = hostname.indexOf(location.hostname.toLowerCase().substring(0, 2)) > -1 ? 'https://' + location.hostname : "https://erp.shinymark.com";
+
+    function Monent_Include(obj) {
+      var _vm = this;
+      return new Promise((resolve, reject) => {
+        const Element = document.createElement(obj.tag);
+        switch (obj.tag) {
+          case 'link':
+            Element.type = obj.type;
+            Element.rel = 'stylesheet';
+            Element.href = obj.src;
+            break;
+          case 'script':
+            Element.type = obj.type;
+            Element.src = obj.src;
+            break;
+        }
+        Element.addEventListener("load", () => {
+          resolve();
+        });
+        Element.addEventListener("error", (e) => {
+          reject(e);
+        });
+        document.querySelectorAll('head')[0].appendChild(Element);
+      });
+    }
+
+    var _Aaray = [{ type: 'text/css', tag: 'link', src: Server + '/Styles/site-default.css'+ '?ver='+ ReF_Min}
+    //,{ type: 'text/css', tag: 'link', src: Server + '/Styles/jquery-ui/jquery-ui.min.css' }
+    ,{ type: 'text/css', tag: 'link', src: Server + '/Styles/Ajax_Loader.css' }
+    ,{ type: 'text/javascript', tag: 'script', src: Server + `/Scripts/customized-ui.js`+ '?ver='+ ReF_Min}
+    //,{ type: 'text/javascript', tag: 'script', src: Server + '/Scripts/jquery.min.js' }
+    //,{ type: 'text/javascript', tag: 'script', src: Server + '/Scripts/jquery-ui.min.js' }
+    ,{ type: 'text/css', tag: 'link', src: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' }
+    ]
+    _Aaray.forEach((item)=>( Monent_Include(item)));
+/*    
+    Monent_Include({ type: 'text/css', tag: 'link', src: Server + '/Styles/site-default.css' })
+    Monent_Include({ type: 'text/css', tag: 'link', src: Server + '/Styles/jquery-ui/jquery-ui.min.css' })
+    Monent_Include({ type: 'text/css', tag: 'link', src: Server + '/Styles/Ajax_Loader.css' })
+    Monent_Include({ type: 'text/javascript', tag: 'script', src: Server + `/Scripts/customized-ui.js`})
+    Monent_Include({ type: 'text/javascript', tag: 'script', src: Server + '/Scripts/jquery.min.js' })
+    Monent_Include({ type: 'text/javascript', tag: 'script', src: Server + '/Scripts/jquery-ui.min.js' })
+    Monent_Include({ type: 'text/css', tag: 'link', src: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' })
+*/    
+
+  </script>
+
+</head>
+
+<body >
+  <div id="app" class="flex flex-col min-h-0 mx-auto" style="padding:0px 10px;"></div>
+  <script type="module" src="/src/main.ts"></script>
+  <noscript>
+    Opinionated, production ready template for Vite and Vue 3
+  </noscript>
+</body>
+<style>
+  .image-container.el-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .image-container.el-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+</style>
+
+</html>
